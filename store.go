@@ -123,16 +123,18 @@ func New{{struct_name}}(ctx context.Context, data *models.{{struct_name}}) error
 		}
 
 		if col.ForeignKeyTable == "user" {
-			out += strings.ReplaceAll(`
+			list := strings.ReplaceAll(`
 			
 func List{{struct_name_upper}}ForUser(ctx context.Context, user_id int64) ([]models.{{struct_name_upper}}, error) {
-	data, err := graphql.List{{struct_name_upper}}ForUser(ctx, user_id)
+	data, err := graphql.List{{struct_name_upper}}ForUserBy{{foreign_column_name_upper}}(ctx, user_id)
 	if err != nil {
 		return data, err
 	}
 
 	return data, nil	
 }`, "{{struct_name_upper}}", struct_name)
+			list = strings.ReplaceAll(list, "{{foreign_column_name_upper}}", ToUpperCase(col.ForeignKeyColumn))
+			out += list
 		}
 
 		// 	if col.IsForeignKey {

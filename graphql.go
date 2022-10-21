@@ -244,12 +244,12 @@ func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
 		if col.ForeignKeyTable == "user" {
 			lbu := `
 
-func List{{struct_name_upper}}ForUser(ctx context.Context, user_id int64) ([]models.{{struct_name_upper}}, error) {
+func List{{struct_name_upper}}ForUserBy{{column_name_upper}}(ctx context.Context, user_id int64) ([]models.{{struct_name_upper}}, error) {
 	var out []models.{{struct_name_upper}}
 
 	q := fragment_{{foreign_table_snake}} + @@query List{{struct_name_upper}}ForUser {
 		{{struct_name_snake}}(where: { {{column_name_snake}}: { eq: $user_id } }) {
-			...{{foreign_table_snake}}
+			...{{foreign_table_upper}}
 		}
 	}@@
 

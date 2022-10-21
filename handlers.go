@@ -341,11 +341,11 @@ func GenerateHandlers(s Struct) (string, error) {
 
 			listbyuserid := `
 
-				func List{{struct_name_upper}}ForUser(w http.ResponseWriter, r *http.Request) {
+				func List{{struct_name_upper}}ForUserBy{{foreign_column_name_upper}}(w http.ResponseWriter, r *http.Request) {
 					ctx := r.Context()
 					mid := ctx.Value(models.CTX_user_id).(int64)
 
-					data, err := store.List{{struct_name_upper}}ForUser(ctx, mid)
+					data, err := store.List{{struct_name_upper}}ForUserBy{{foreign_column_name_upper}}(ctx, mid)
 					if err != nil {
 						ServeError(w, err.Error(), 400)
 						return
@@ -355,6 +355,7 @@ func GenerateHandlers(s Struct) (string, error) {
 					ServeJSON(w, data)
 	}`
 
+			listbyuserid = strings.ReplaceAll(listbyuserid, "{{foreign_column_name_upper}}", ToUpperCase(c.ForeignKeyColumn))
 			listbyuserid = strings.ReplaceAll(listbyuserid, "{{column_name_upper}}", ToUpperCase(c.Name))
 			listbyuserid = strings.ReplaceAll(listbyuserid, "{{struct_name_upper}}", struct_name)
 

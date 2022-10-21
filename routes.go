@@ -32,12 +32,14 @@ func GenerateRoutes(sts []Struct) string {
 		q := `
 		
 	r.Route("/{{struct_name_snake}}", func(r chi.Router) {
-		r.Get("/{{{struct_name_snake}}_id}", handlers.Get{{struct_name_upper}})
 		r.Group(func(r chi.Router) {
 			r.Use(handlers.RestrictAuth)
 			r.Post("/", handlers.New{{struct_name_upper}})
-			r.Put("/", handlers.Update{{struct_name_upper}})
-			r.Delete("/", handlers.Delete{{struct_name_upper}})
+			r.Route("/{{{struct_name_snake}}_id}", func(r chi.Router) {
+				r.Get("/", handlers.Get{{struct_name_upper}})
+				r.Put("/", handlers.Update{{struct_name_upper}})
+				r.Delete("/", handlers.Delete{{struct_name_upper}})
+			})
 		})
 	})`
 
@@ -53,8 +55,9 @@ func GenerateRoutes(sts []Struct) string {
 				}
 
 				ur := `
-r.Get("/{{struct_name_snake}}", handlers.List{{struct_name_upper}}ForUser)`
+r.Get("/{{struct_name_snake}}", handlers.List{{struct_name_upper}}ForUserBy{{foreign_column_name_upper}})`
 
+				ur = strings.ReplaceAll(ur, "{{foreign_column_name_upper}}", ToUpperCase(c.ForeignKeyColumn))
 				ur = strings.ReplaceAll(ur, "{{struct_name_upper}}", ToUpperCase(s.Name))
 				ur = strings.ReplaceAll(ur, "{{struct_name_snake}}", ToSnakeCase(s.Name))
 
@@ -65,7 +68,9 @@ r.Get("/{{struct_name_snake}}", handlers.List{{struct_name_upper}}ForUser)`
 
 	out += `
 
-	r.Route("/me", func(r chi.Router) {` + user_routes + `
+	r.Route("/me", func(r chi.Router) {
+		r.Use(handlers.RestrictAuth)
+		` + user_routes + `
 	})`
 
 	return out

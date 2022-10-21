@@ -74,8 +74,8 @@ func GenerateTsType(s Struct) (string, error) {
 		c_snake := ToSnakeCase(c.Name)
 
 		if c.IsForeignObject {
-			fk_snake := ToSnakeCase(c.Name)
-			fk_upper := ToUpperCase(c.Name)
+			fk_snake := ToSnakeCase(strings.ReplaceAll(c.Type, "[]", ""))
+			fk_upper := ToUpperCase(strings.ReplaceAll(c.Type, "[]", ""))
 
 			imports += `import {` + "I" + fk_upper + ", " + fk_upper + "} from './" + fk_snake + `';
 `
