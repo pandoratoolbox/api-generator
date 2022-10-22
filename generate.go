@@ -278,6 +278,17 @@ func main() {` + r + `
 
 	fmt.Println(string(out))
 
+	//get the correct version of custom json encoding library
+	cmd = exec.Command("go", "get", "github.com/pandoratoolbox/json@21b1eb964277be3cdc85e9c761be521460e98260")
+	cmd.Dir = "./" + APP_NAME
+
+	out, err = cmd.Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(string(out))
+
 	cmd = exec.Command("go", "build", ".")
 	cmd.Dir = "./" + APP_NAME
 
