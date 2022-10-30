@@ -5,7 +5,7 @@
  
  Managed version with a SaaS panel for deployment support, user management, RBAC configuration, module access configuration., etc coming soon.
  
-How to use:
+How to use (Requires Go & NPM):
 
 1. Create .env file
 e.g:
@@ -19,3 +19,5 @@ PORT=3333
 
 2. Run the code
 3. Your new API will be in a folder in the same directory (named from the APP_NAME env variable)
+
+The /example folder contains an example of a generated Golang API + TypeScript client.
