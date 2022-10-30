@@ -248,6 +248,16 @@ func main() {` + r + `
 		return err
 	}
 
+	env, err := ioutil.ReadFile(".env")
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile("./"+APP_NAME+"/.env", env, 0777)
+	if err != nil {
+		return err
+	}
+
 	cmd := exec.Command("go", "mod", "init", APP_NAME)
 	cmd.Dir = "./" + APP_NAME
 
