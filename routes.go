@@ -24,6 +24,7 @@ func GenerateRoutes(sts []Struct) string {
 
 	r.Use(corsParams.Handler)
 	r.Use(middleware.Logger)
+	r.Use(jwtauth.Verifier(handlers.TokenAuth))
 	r.Use(handlers.Authenticator)
 	
 	`
