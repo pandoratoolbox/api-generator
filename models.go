@@ -74,6 +74,8 @@ AND table_name = $1;`
 				tp = "map[string]interface{}"
 			case "double precision":
 				tp = "float64"
+			case "numeric":
+				tp = "float64"
 			case "integer":
 				tp = "int64"
 			case "bigint":

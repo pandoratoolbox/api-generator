@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -241,165 +242,164 @@ func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
 			}
 		}
 
-		if col.ForeignKeyTable == "user" {
-			lbu := `
+		// 		if col.ForeignKeyTable == "user" {
+		// 			lbu := `
 
-func List{{struct_name_upper}}ForUserBy{{column_name_upper}}(ctx context.Context, user_id int64) ([]models.{{struct_name_upper}}, error) {
-	var out []models.{{struct_name_upper}}
+		// func List{{struct_name_upper}}ForUserBy{{column_name_upper}}(ctx context.Context, user_id int64) ([]models.{{struct_name_upper}}, error) {
+		// 	var out []models.{{struct_name_upper}}
 
-	q := fragment_{{struct_table_snake}} + @@query List{{struct_name_upper}}ForUser {
-		{{struct_name_snake}}(where: { {{column_name_snake}}: { eq: $id } }) {
-			...{{struct_table_upper}}
-		}
-	}@@
+		// 	q := fragment_{{struct_name_snake}} + @@query List{{struct_name_upper}}ForUser {
+		// 		{{struct_name_snake}}(where: { {{column_name_snake}}: { eq: $id } }) {
+		// 			...{{struct_table_upper}}
+		// 		}
+		// 	}@@
 
-
-	input := struct{
-		Id int64 @@json:"id"@@
-	}{
-		Id: user_id,
-	}
-
-
-	js, err := json.Marshal(input)
-	if err != nil {
-		return out, err
-	}
-
-	res, err := Graph.GraphQL(ctx, q, js, nil)
-	if err != nil {
-		return out, err
-	}
-
-	rt := struct{
-		{{struct_name_upper}} []models.{{struct_name_upper}} @@json:"{{struct_name_snake}}"@@
-	}{}
-
-	err = json.Unmarshal(res.Data, &rt)
-	if err != nil {
-		return out, err
-	}
-
-	out = rt.{{struct_name_upper}}
-
-	return out, nil
-}`
-
-			lbu = strings.ReplaceAll(lbu, "@@", "`")
-			lbu = strings.ReplaceAll(lbu, "{{struct_name_upper}}", structname)
-			lbu = strings.ReplaceAll(lbu, "{{struct_name_snake}}", structname_snake)
-			lbu = strings.ReplaceAll(lbu, "{{foreign_table_upper}}", ToUpperCase(col.ForeignKeyTable))
-			lbu = strings.ReplaceAll(lbu, "{{foreign_table_snake}}", ToSnakeCase(col.ForeignKeyTable))
-			lbu = strings.ReplaceAll(lbu, "{{column_name_snake}}", ToSnakeCase(col.Name))
-			lbu = strings.ReplaceAll(lbu, "{{column_name_upper}}", ToUpperCase(col.Name))
-
-			c += lbu
-		}
-
-		// if col.IsForeignKey {
-
-		// 	if col.IsUnique {
-		// 		getfkbyid := `
-
-		// 		func Get{{struct_name_upper}}By{{column_name_upper}}(ctx context.Context, id int64) (models.{{struct_name_upper}}, error) {
-		// 			var out models.{{struct_name_upper}}
-
-		// 			q := fragment_{{struct_name_snake}}+""query Get{{struct_name_upper}}By{{column_name_upper}}(where: { {{column_name_snake}}: { eq: $id }}) {
-		// 				...{{struct_name_upper}}
-		// 			}""
-
-		// 			input := struct{
-		// 				Id int64 ""%s""
-		// 			}{
-		// 				Id: id,
-		// 			}
-
-		// 			js, err := json.Marshal(input)
-		// 			if err != nil {
-		// 				return out, err
-		// 			}
-
-		// 			res, err := Graph.GraphQL(ctx, q, js, nil)
-		// 			if err != nil {
-		// 				return out, err
-		// 			}
-
-		// 			ret := struct{
-		// 				{{struct_name_upper}} []models.{{struct_name_upper}}
-		// 			}{}
-
-		// 			err = json.Unmarshal(res.Data, &ret)
-		// 			if err != nil {
-		// 				return out, err
-		// 			}
-
-		// 			if len(ret.{{struct_name_upper}}) < 1 {
-		// 				return out, errors.New("Object not found")
-		// 			}
-
-		// 			out = ret.{{struct_name_upper}}[0]
-
-		// 			return out, nil
-		// 		}`
-		// 		getfkbyid = strings.ReplaceAll(getfkbyid, `""`, "`")
-		// 		getfkbyid = strings.ReplaceAll(getfkbyid, "{{struct_name_upper}}", ToUpperCase(s.Name))
-		// 		getfkbyid = strings.ReplaceAll(getfkbyid, "{{column_name_upper}}", ToUpperCase(col.Name))
-		// 		getfkbyid = strings.ReplaceAll(getfkbyid, "{{column_name_snake}}", ToSnakeCase(col.Name))
-		// 		getfkbyid = fmt.Sprintf(getfkbyid, `json:"id"`)
-		// 		c += getfkbyid
-
-		// 		continue
+		// 	input := struct{
+		// 		Id int64 @@json:"id"@@
+		// 	}{
+		// 		Id: user_id,
 		// 	}
 
-		// 	getfkbyid := `
+		// 	js, err := json.Marshal(input)
+		// 	if err != nil {
+		// 		return out, err
+		// 	}
 
-		// 	func Get{{struct_name_upper}}By{{column_name_upper}}(ctx context.Context, id int64) (models.{{struct_name_upper}}, error) {
-		// 		var out models.{{struct_name_upper}}
+		// 	res, err := Graph.GraphQL(ctx, q, js, nil)
+		// 	if err != nil {
+		// 		return out, err
+		// 	}
 
-		// 		q := fragment_{{struct_name_snake}}+""query Get{{struct_name_upper}}By{{column_name_upper}}(where: { {{column_name_snake}}: { eq: $id }}) {
-		// 			...{{struct_name_upper}}
-		// 		}""
+		// 	rt := struct{
+		// 		{{struct_name_upper}} []models.{{struct_name_upper}} @@json:"{{struct_name_snake}}"@@
+		// 	}{}
 
-		// 		input := struct{
-		// 			Id int64 ""%s""
-		// 		}{
-		// 			Id: id,
+		// 	err = json.Unmarshal(res.Data, &rt)
+		// 	if err != nil {
+		// 		return out, err
+		// 	}
+
+		// 	out = rt.{{struct_name_upper}}
+
+		// 	return out, nil
+		// }`
+
+		// 			lbu = strings.ReplaceAll(lbu, "@@", "`")
+		// 			lbu = strings.ReplaceAll(lbu, "{{struct_name_upper}}", structname)
+		// 			lbu = strings.ReplaceAll(lbu, "{{struct_name_snake}}", structname_snake)
+		// 			lbu = strings.ReplaceAll(lbu, "{{foreign_table_upper}}", ToUpperCase(col.ForeignKeyTable))
+		// 			lbu = strings.ReplaceAll(lbu, "{{foreign_table_snake}}", ToSnakeCase(col.ForeignKeyTable))
+		// 			lbu = strings.ReplaceAll(lbu, "{{column_name_snake}}", ToSnakeCase(col.Name))
+		// 			lbu = strings.ReplaceAll(lbu, "{{column_name_upper}}", ToUpperCase(col.Name))
+
+		// 			c += lbu
 		// 		}
 
-		// 		js, err := json.Marshal(input)
-		// 		if err != nil {
-		// 			return out, err
-		// 		}
+		if col.IsForeignKey {
 
-		// 		res, err := Graph.GraphQL(ctx, q, js, nil)
-		// 		if err != nil {
-		// 			return out, err
-		// 		}
+			if col.IsUnique {
+				getfkbyid := `
 
-		// 		ret := struct{
-		// 			{{struct_name_upper}} []models.{{struct_name_upper}}
-		// 		}{}
+				func Get{{struct_name_upper}}By{{column_name_upper}}(ctx context.Context, id int64) (models.{{struct_name_upper}}, error) {
+					var out models.{{struct_name_upper}}
 
-		// 		err = json.Unmarshal(res.Data, &ret)
-		// 		if err != nil {
-		// 			return out, err
-		// 		}
+					q := fragment_{{struct_name_snake}}+""query Get{{struct_name_upper}}By{{column_name_upper}}(where: { {{column_name_snake}}: { eq: $id }}) {
+						...{{struct_name_upper}}
+					}""
 
-		// 		if len(ret.{{struct_name_upper}}) < 1 {
-		// 			return out, errors.New("Object not found")
-		// 		}
+					input := struct{
+						Id int64 ""%s""
+					}{
+						Id: id,
+					}
 
-		// 		out = ret.{{struct_name_upper}}[0]
+					js, err := json.Marshal(input)
+					if err != nil {
+						return out, err
+					}
 
-		// 		return out, nil
-		// 	}`
-		// 	getfkbyid = strings.ReplaceAll(getfkbyid, `""`, "`")
-		// 	getfkbyid = strings.ReplaceAll(getfkbyid, "{{struct_name_upper}}", ToUpperCase(s.Name))
-		// 	getfkbyid = strings.ReplaceAll(getfkbyid, "{{column_name_upper}}", ToUpperCase(col.Name))
-		// 	getfkbyid = strings.ReplaceAll(getfkbyid, "{{column_name_snake)", ToSnakeCase(col.Name))
-		// 	getfkbyid = fmt.Sprintf(getfkbyid, `json:"id"`)
-		// 	c += getfkbyid
-		// }
+					res, err := Graph.GraphQL(ctx, q, js, nil)
+					if err != nil {
+						return out, err
+					}
+
+					ret := struct{
+						{{struct_name_upper}} []models.{{struct_name_upper}}
+					}{}
+
+					err = json.Unmarshal(res.Data, &ret)
+					if err != nil {
+						return out, err
+					}
+
+					if len(ret.{{struct_name_upper}}) < 1 {
+						return out, errors.New("Object not found")
+					}
+
+					out = ret.{{struct_name_upper}}[0]
+
+					return out, nil
+				}`
+				getfkbyid = strings.ReplaceAll(getfkbyid, `""`, "`")
+				getfkbyid = strings.ReplaceAll(getfkbyid, "{{struct_name_upper}}", ToUpperCase(s.Name))
+				getfkbyid = strings.ReplaceAll(getfkbyid, "{{struct_name_snake}}", ToSnakeCase(s.Name))
+				getfkbyid = strings.ReplaceAll(getfkbyid, "{{column_name_upper}}", ToUpperCase(col.Name))
+				getfkbyid = strings.ReplaceAll(getfkbyid, "{{column_name_snake}}", ToSnakeCase(col.Name))
+				getfkbyid = fmt.Sprintf(getfkbyid, `json:"id"`)
+				c += getfkbyid
+			} else {
+				getfkbyid := `
+
+				func List{{struct_name_upper}}By{{column_name_upper}}(ctx context.Context, id int64) ([]models.{{struct_name_upper}}, error) {
+					var out []models.{{struct_name_upper}}
+	
+					q := fragment_{{struct_name_snake}}+""query List{{struct_name_upper}}By{{column_name_upper}}(where: { {{column_name_snake}}: { eq: $id }}) {
+						...{{struct_name_upper}}
+					}""
+	
+					input := struct{
+						Id int64 ""%s""
+					}{
+						Id: id,
+					}
+	
+					js, err := json.Marshal(input)
+					if err != nil {
+						return out, err
+					}
+	
+					res, err := Graph.GraphQL(ctx, q, js, nil)
+					if err != nil {
+						return out, err
+					}
+	
+					ret := struct{
+						{{struct_name_upper}} []models.{{struct_name_upper}}
+					}{}
+	
+					err = json.Unmarshal(res.Data, &ret)
+					if err != nil {
+						return out, err
+					}
+	
+					if len(ret.{{struct_name_upper}}) < 1 {
+						return out, errors.New("Object not found")
+					}
+	
+					out = ret.{{struct_name_upper}}
+	
+					return out, nil
+				}`
+				getfkbyid = strings.ReplaceAll(getfkbyid, `""`, "`")
+				getfkbyid = strings.ReplaceAll(getfkbyid, "{{struct_name_upper}}", ToUpperCase(s.Name))
+				getfkbyid = strings.ReplaceAll(getfkbyid, "{{struct_name_snake}}", ToSnakeCase(s.Name))
+				getfkbyid = strings.ReplaceAll(getfkbyid, "{{column_name_upper}}", ToUpperCase(col.Name))
+				getfkbyid = strings.ReplaceAll(getfkbyid, "{{column_name_snake}}", ToSnakeCase(col.Name))
+				getfkbyid = fmt.Sprintf(getfkbyid, `json:"id"`)
+				c += getfkbyid
+			}
+
+		}
 
 	}
 

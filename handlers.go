@@ -345,7 +345,7 @@ func GenerateHandlers(s Struct) (string, error) {
 					ctx := r.Context()
 					mid := ctx.Value(models.CTX_user_id).(int64)
 
-					data, err := store.List{{struct_name_upper}}ForUserBy{{foreign_column_name_upper}}(ctx, mid)
+					data, err := store.List{{struct_name_upper}}By{{column_name_upper}}(ctx, mid)
 					if err != nil {
 						ServeError(w, err.Error(), 400)
 						return
