@@ -158,6 +158,8 @@ func GetUserByUsername(ctx context.Context, username string) (models.User, error
 		return out, errors.New("Unable to find user")
 	}
 
+	out = rt.User[0]
+
 	return out, nil
 	}`, "@@", "`", -1)
 
@@ -202,6 +204,8 @@ func GetUserByEmail(ctx context.Context, email string) (models.User, error) {
 	if len(rt.User) < 1 {
 		return out, errors.New("Unable to find user")
 	}
+
+	out = rt.User[0]
 
 	return out, nil
 	}`, "@@", "`", -1)

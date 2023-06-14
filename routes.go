@@ -71,7 +71,12 @@ r.Get("/{{struct_name_snake}}", handlers.List{{struct_name_upper}}ForUserBy{{for
 
 	r.Route("/me", func(r chi.Router) {
 		r.Use(handlers.RestrictAuth)
-		` + user_routes + `
+		r.Get("/", handlers.GetMyUserData)` + user_routes + `
+	})
+	
+	r.Route("/auth", func(r chi.Router) {
+		r.Post("/login", handlers.Login)
+		r.Post("/register", handlers.Register)
 	})`
 
 	return out

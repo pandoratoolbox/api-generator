@@ -117,7 +117,7 @@ if err != nil {
 	return
 }
 
-if user.Password != input.Password {
+if *user.Password != *input.Password {
 	ServeError(w, errors.New("Wrong password").Error(), 400)
 	return
 }
@@ -194,6 +194,22 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ServeJSON(w, response)
+}` + `
+
+func GetMyUserData(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	mid := ctx.Value(models.CTX_user_id).(int64)
+
+	user, err := store.GetUser(ctx, mid)
+	if err != nil {
+		ServeError(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	user.Password = nil
+
+	ServeJSON(w, user)
 }`
 
 	return pkg + handlers
