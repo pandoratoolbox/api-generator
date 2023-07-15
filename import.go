@@ -15,7 +15,7 @@ const (
 	PACKAGE_PGX            = `_ "github.com/jackc/pgx/v4/stdlib"`
 	PACKAGE_OS             = `"os"`
 	PACKAGE_REDIS          = `"github.com/go-redis/redis/v8"`
-	PACKAGE_GRAPHJIN       = `"github.com/dosco/graphjin/core"`
+	PACKAGE_GRAPHJIN       = `"github.com/dosco/graphjin/core/v3"`
 	PACKAGE_ENV            = `"github.com/joho/godotenv"`
 	PACKAGE_LOG            = `"log"`
 	PACKAGE_CHI_JWTAUTH    = `"github.com/go-chi/jwtauth"`

@@ -107,7 +107,8 @@ func ReflectToFragment(data interface{}) string {
 
 func Init() error {
 	var err error
-	Graph, err = core.NewGraphJin(nil, connections.Postgres)
+	conf := core.Config{}
+	Graph, err = core.NewGraphJin(&conf, connections.Postgres)
 
 	if err != nil {
 		return err
@@ -307,8 +308,10 @@ func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
 				func Get{{struct_name_upper}}By{{column_name_upper}}(ctx context.Context, id int64) (models.{{struct_name_upper}}, error) {
 					var out models.{{struct_name_upper}}
 
-					q := fragment_{{struct_name_snake}}+""query Get{{struct_name_upper}}By{{column_name_upper}}(where: { {{column_name_snake}}: { eq: $id }}) {
+					q := fragment_{{struct_name_snake}}+""query Get{{struct_name_upper}}By{{column_name_upper}} {
+						{{struct_name_snake}}(where: { {{column_name_snake}}: { eq: $id }}) {
 						...{{struct_name_upper}}
+						}
 					}""
 
 					input := struct{

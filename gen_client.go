@@ -74,28 +74,30 @@ func GenerateTsType(s Struct) (string, error) {
 		c_snake := ToSnakeCase(c.Name)
 
 		if c.IsForeignObject {
-			fk_snake := ToSnakeCase(strings.ReplaceAll(c.Type, "[]", ""))
-			fk_upper := ToUpperCase(strings.ReplaceAll(c.Type, "[]", ""))
+			fk_type_snake := ToSnakeCase(strings.ReplaceAll(c.Type, "[]", ""))
+			fk_type_upper := ToUpperCase(strings.ReplaceAll(c.Type, "[]", ""))
+			fk_snake := ToSnakeCase(strings.ReplaceAll(c.Name, "[]", ""))
+			// fk_upper := ToUpperCase(strings.ReplaceAll(c.Name, "[]", ""))
 
-			imports += `import {` + "I" + fk_upper + ", " + fk_upper + "} from './" + fk_snake + `';
+			imports += `import {` + "I" + fk_type_upper + ", " + fk_type_upper + "} from './" + fk_type_snake + `';
 `
 
 			if strings.Contains(c.Type, "[]") {
 
-				t_fields += fk_snake + "?: " + fk_upper + `[];
+				t_fields += fk_snake + "?: " + fk_type_upper + `[];
 `
-				i_fields += fk_snake + "?: I" + fk_upper + `[];
+				i_fields += fk_snake + "?: I" + fk_type_upper + `[];
 `
 
-				t_constructor_fields += "this." + fk_snake + " = " + "data." + fk_snake + "?.map(i => { return new " + fk_upper + `(i) });
+				t_constructor_fields += "this." + fk_snake + " = " + "data." + fk_snake + "?.map(i => { return new " + fk_type_upper + `(i) });
 `
 			} else {
-				t_fields += fk_snake + "?: " + fk_upper + `;
+				t_fields += fk_snake + "?: " + fk_type_upper + `;
 `
-				i_fields += fk_snake + "?: I" + fk_upper + `;
+				i_fields += fk_snake + "?: I" + fk_type_upper + `;
 `
 
-				t_constructor_fields += "this." + fk_snake + " = data." + fk_snake + " ? " + "new " + fk_upper + "(data." + fk_snake + `) : undefined;
+				t_constructor_fields += "this." + fk_snake + " = data." + fk_snake + " ? " + "new " + fk_type_upper + "(data." + fk_snake + `) : undefined;
 `
 			}
 

@@ -111,7 +111,7 @@ func GetForeignKeyRelationships(struct_map map[string]map[string]Column) (map[st
 
 		struct_map[fk.Table][fk.ForeignTable] = Column{
 			Table:           fk.ForeignTable,
-			Name:            ToUpperCase(strings.ReplaceAll(fk.Column, "_id", "")),
+			Name:            ToUpperCase(strings.TrimSuffix(fk.Column, "_id")),
 			Type:            ToUpperCase(fk.ForeignTable),
 			IsForeignObject: true,
 		}
