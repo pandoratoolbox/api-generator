@@ -389,10 +389,6 @@ func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
 						return out, err
 					}
 	
-					if len(ret.{{struct_name_upper}}) < 1 {
-						return out, errors.New("Object not found")
-					}
-	
 					out = ret.{{struct_name_upper}}
 	
 					return out, nil
@@ -466,7 +462,7 @@ func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
 	func Delete{{struct_name}}(ctx context.Context, id int64) error {
 		q := ""
 		mutation Delete{{struct_name}} {
-			{{struct_name_snake}}(where: { id: { eq: $id } }) {
+			{{struct_name_snake}}(delete: true, where: { id: { eq: $id } }) {
 				id
 			}
 		}

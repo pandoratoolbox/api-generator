@@ -309,5 +309,11 @@ func main() {` + r + `
 
 	fmt.Println(string(out))
 
+	// err = ioutil.WriteFile("./"+APP_NAME+"/openapi.json", []byte(GenerateOpenAPI(structs)), 0777)
+
+	// if err != nil {
+	// 	return err
+	// }
+
 	return nil
 }

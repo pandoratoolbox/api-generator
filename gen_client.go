@@ -123,6 +123,8 @@ func GenerateTsType(s Struct) (string, error) {
 			ts_type = "Date"
 		case "map[string]interface{}":
 			ts_type = "object"
+		case "[]map[string]interface{}":
+			ts_type = "object[]"
 		default:
 			log.Fatal(c)
 		}

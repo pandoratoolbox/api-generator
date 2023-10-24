@@ -38,9 +38,9 @@ func GenerateCoreMiddleware() string {
 					ctx = context.WithValue(ctx, models.CTX_is_auth, false)
 				} else {
 					var rids []int64
-					rrids := claimsRole.([]float64)
+					rrids := claimsRole.([]interface{})
 					for _, rrid := range rrids {
-						rids = append(rids, int64(rrid))
+						rids = append(rids, int64(rrid.(float64)))
 					}
 
 					ctx = context.WithValue(ctx, models.CTX_user_role_ids, rids)
@@ -249,15 +249,20 @@ func GenerateHandlers(s Struct) (string, error) {
 
 	func Update{{struct_name}}(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-	
+		q := chi.URLParam(r, "{{struct_name_snake}}_id")
+		id, err := strconv.ParseInt(q, 10, 64)
+
 		data := models.{{struct_name}}{}
 	
 		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(&data)
+		err = decoder.Decode(&data)
 		if err != nil {
 			ServeError(w, err.Error(), 400)
 			return
 		}
+
+		data.Id = &id
+		
 	
 		err = store.Update{{struct_name}}(ctx, data)
 		if err != nil {

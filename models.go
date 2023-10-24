@@ -72,8 +72,12 @@ AND table_name = $1;`
 			switch c.Type {
 			case "json":
 				tp = "map[string]interface{}"
+			case "json[]":
+				tp = "[]map[string]interface{}"
 			case "jsonb":
 				tp = "map[string]interface{}"
+			case "jsonb[]":
+				tp = "[]map[string]interface{}"
 			case "double precision":
 				tp = "float64"
 			case "numeric":
