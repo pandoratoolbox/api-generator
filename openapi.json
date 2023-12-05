@@ -1,0 +1,858 @@
+{
+  "schemas": {
+    "ArticleSource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "article": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Article"
+          }
+        }
+      }
+    },
+    "NftCardCategory": {
+      "type": "object",
+      "properties": {
+        "card_series": {
+          "$ref": "#/components/schemas/CardSeries"
+        },
+        "category": {
+          "type": "string"
+        },
+        "is_crafted": {
+          "type": "boolean"
+        },
+        "card_series_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "owner": {
+          "$ref": "#/components/schemas/Owner"
+        },
+        "marketplace_listing": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MarketplaceListing"
+          }
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "owner_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rarity": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "NftCardYear": {
+      "type": "object",
+      "properties": {
+        "card_series_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "owner": {
+          "$ref": "#/components/schemas/Owner"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "owner_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "is_crafted": {
+          "type": "boolean"
+        },
+        "rarity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "marketplace_listing": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MarketplaceListing"
+          }
+        },
+        "card_series": {
+          "$ref": "#/components/schemas/CardSeries"
+        }
+      }
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Identity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "birth_day": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "birth_month": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "birth_year": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category": {
+          "type": "string"
+        }
+      }
+    },
+    "Article": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "article_source": {
+          "$ref": "#/components/schemas/ArticleSource"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "article_source_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "excerpt": {
+          "type": "string"
+        },
+        "claim": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Claim"
+          }
+        },
+        "url": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "thumbnail_src": {
+          "type": "string"
+        }
+      }
+    },
+    "CardSeries": {
+      "type": "object",
+      "properties": {
+        "nft_card_category": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardCategory"
+          }
+        },
+        "nft_card_crafting": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardCrafting"
+          }
+        },
+        "nft_card_prediction": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardPrediction"
+          }
+        },
+        "card_collection": {
+          "$ref": "#/components/schemas/CardCollection"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pct_year": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "card_pack": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CardPack"
+          }
+        },
+        "card_amount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rarity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_card_identity": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardIdentity"
+          }
+        },
+        "nft_card_trigger": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardTrigger"
+          }
+        },
+        "pct_identity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pct_month": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pct_day": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_card_year": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardYear"
+          }
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "cost_usd": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pct_event": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "card_collection_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_card_day_month": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardDayMonth"
+          }
+        }
+      }
+    },
+    "CardPack": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "owner_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "tier": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "card_series": {
+          "$ref": "#/components/schemas/CardSeries"
+        },
+        "owner": {
+          "$ref": "#/components/schemas/Owner"
+        },
+        "card_series_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "is_opened": {
+          "type": "boolean"
+        },
+        "marketplace_listing": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MarketplaceListing"
+          }
+        }
+      }
+    },
+    "NftCardIdentity": {
+      "type": "object",
+      "properties": {
+        "day": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "is_crafted": {
+          "type": "boolean"
+        },
+        "owner_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "celebrity_name": {
+          "type": "string"
+        },
+        "rarity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "card_series_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "owner": {
+          "$ref": "#/components/schemas/Owner"
+        },
+        "month": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "card_series": {
+          "$ref": "#/components/schemas/CardSeries"
+        },
+        "marketplace_listing": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MarketplaceListing"
+          }
+        }
+      }
+    },
+    "MarketplaceListing": {
+      "type": "object",
+      "properties": {
+        "nft_card_prediction": {
+          "$ref": "#/components/schemas/NftCardPrediction"
+        },
+        "nft_card_year": {
+          "$ref": "#/components/schemas/NftCardYear"
+        },
+        "marketplace_offer": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MarketplaceOffer"
+          }
+        },
+        "card_pack": {
+          "$ref": "#/components/schemas/CardPack"
+        },
+        "owner_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "price": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "is_listed": {
+          "type": "boolean"
+        },
+        "nft_card_trigger_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_card_identity_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "card_pack_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_card_identity": {
+          "$ref": "#/components/schemas/NftCardIdentity"
+        },
+        "nft_card_crafting_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_card_category_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_card_day_month_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_type_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "owner": {
+          "$ref": "#/components/schemas/Owner"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_card_year_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_card_prediction_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_card_trigger": {
+          "$ref": "#/components/schemas/NftCardTrigger"
+        },
+        "nft_card_category": {
+          "$ref": "#/components/schemas/NftCardCategory"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "nft_card_crafting": {
+          "$ref": "#/components/schemas/NftCardCrafting"
+        },
+        "nft_card_day_month": {
+          "$ref": "#/components/schemas/NftCardDayMonth"
+        }
+      }
+    },
+    "Claim": {
+      "type": "object",
+      "properties": {
+        "claimer_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nft_prediction_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "article_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "claimer": {
+          "$ref": "#/components/schemas/Claimer"
+        },
+        "article": {
+          "$ref": "#/components/schemas/Article"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Celebrity": {
+      "type": "object",
+      "properties": {
+        "birth_month": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "birth_year": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "birth_day": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Trigger": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tier": {
+          "type": "string"
+        }
+      }
+    },
+    "CardCollection": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "card_series": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CardSeries"
+          }
+        }
+      }
+    },
+    "NftCardPrediction": {
+      "type": "object",
+      "properties": {
+        "owner": {
+          "$ref": "#/components/schemas/Owner"
+        },
+        "marketplace_listing": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MarketplaceListing"
+          }
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "owner_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rarity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "is_claimed": {
+          "type": "boolean"
+        },
+        "celebrity_name": {
+          "type": "string"
+        },
+        "card_series_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "card_series": {
+          "$ref": "#/components/schemas/CardSeries"
+        }
+      }
+    },
+    "NftCardTrigger": {
+      "type": "object",
+      "properties": {
+        "marketplace_listing": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MarketplaceListing"
+          }
+        },
+        "is_crafted": {
+          "type": "boolean"
+        },
+        "owner_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rarity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "tier": {
+          "type": "string"
+        },
+        "card_series_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "trigger": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/components/schemas/Owner"
+        },
+        "card_series": {
+          "$ref": "#/components/schemas/CardSeries"
+        }
+      }
+    },
+    "MarketplaceOffer": {
+      "type": "object",
+      "properties": {
+        "marketplace_listing_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "amount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "buyer_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "marketplace_listing": {
+          "$ref": "#/components/schemas/MarketplaceListing"
+        },
+        "buyer": {
+          "$ref": "#/components/schemas/Buyer"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "NftCardDayMonth": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "month": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "marketplace_listing": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MarketplaceListing"
+          }
+        },
+        "is_crafted": {
+          "type": "boolean"
+        },
+        "card_series_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "owner": {
+          "$ref": "#/components/schemas/Owner"
+        },
+        "card_series": {
+          "$ref": "#/components/schemas/CardSeries"
+        },
+        "day": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "owner_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rarity": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "venly_id": {
+          "type": "string"
+        },
+        "nft_card_category": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardCategory"
+          }
+        },
+        "card_pack": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CardPack"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "balance": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "marketplace_listing": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MarketplaceListing"
+          }
+        },
+        "nft_card_year": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardYear"
+          }
+        },
+        "nft_card_prediction": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardPrediction"
+          }
+        },
+        "username": {
+          "type": "string"
+        },
+        "nft_card_trigger": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardTrigger"
+          }
+        },
+        "nft_card_identity": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardIdentity"
+          }
+        },
+        "nft_card_day_month": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardDayMonth"
+          }
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "external_auth_id": {
+          "type": "string"
+        },
+        "wallet_address": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "claim": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Claim"
+          }
+        },
+        "nft_card_crafting": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NftCardCrafting"
+          }
+        },
+        "marketplace_offer": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MarketplaceOffer"
+          }
+        }
+      }
+    },
+    "NftCardCrafting": {
+      "type": "object",
+      "properties": {
+        "owner": {
+          "$ref": "#/components/schemas/Owner"
+        },
+        "marketplace_listing": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MarketplaceListing"
+          }
+        },
+        "card_series": {
+          "$ref": "#/components/schemas/CardSeries"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "is_crafted": {
+          "type": "boolean"
+        },
+        "owner_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rarity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "card_series_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    }
+  }
+}

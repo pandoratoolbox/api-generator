@@ -36,7 +36,7 @@ func GenerateRoutes(sts []Struct) string {
 		r.Group(func(r chi.Router) {
 			r.Use(handlers.RestrictAuth)
 			r.Post("/", handlers.New{{struct_name_upper}})
-			r.Route("/{{struct_name_snake}}_id}", func(r chi.Router) {
+			r.Route("/{{{struct_name_snake}}_id}", func(r chi.Router) {
 				r.Get("/", handlers.Get{{struct_name_upper}})
 				r.Put("/", handlers.Update{{struct_name_upper}})
 				r.Delete("/", handlers.Delete{{struct_name_upper}})

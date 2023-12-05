@@ -274,6 +274,7 @@ func GenerateHandlers(s Struct) (string, error) {
 	}`
 
 	updatehandler = strings.ReplaceAll(updatehandler, "{{struct_name}}", struct_name)
+	updatehandler = strings.ReplaceAll(updatehandler, "{{struct_name_snake}}", struct_name_snake)
 
 	deletehandler := `
 
