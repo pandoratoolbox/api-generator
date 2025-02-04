@@ -177,6 +177,10 @@ func GetUniqueKeys(struct_map map[string]map[string]Column) (map[string]map[stri
 			return out, err
 		}
 
+		if _, exists := struct_map[t]; !exists {
+			continue
+		}
+
 		struct_map[t][c] = Column{
 			Type:             struct_map[t][c].Type,
 			Name:             struct_map[t][c].Name,
