@@ -124,7 +124,7 @@ if *user.Password != *input.Password {
 
 _, jwtstring, err := TokenAuth.Encode(map[string]interface{}{
 	"id":       	 *user.Id,
-	"role_ids":      *user.RoleIds,
+	//"role_ids":      *user.RoleIds,
 })
 if err != nil {
 	ServeError(w, err.Error(), 400)
@@ -165,7 +165,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	 		Username: data.Username,
 	 		Password: data.Password,
 	 		Email:    data.Email,
-	 		RoleIds:     &roles,
+	 		//RoleIds:     &roles,
 	 	},
 	}
 
@@ -177,7 +177,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	_, jwtstring, err := TokenAuth.Encode(map[string]interface{}{
 		"id":        *user.Id,
-		"role_ids":      *user.RoleIds,
+		//"role_ids":      *user.RoleIds,
 	})
 
 	if err != nil {

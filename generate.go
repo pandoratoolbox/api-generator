@@ -231,9 +231,19 @@ func Generate() error {
 	main := `package main
 
 ` + GenerateImport(PACKAGE_LOG, PACKAGE_CHI, PACKAGE_HANDLERS, PACKAGE_ERRORS, PACKAGE_CHI_CORS, PACKAGE_CHI_MIDDLEWARE) + `
-func main() {` + r + `
+func main() {` + `
+	err := connections.InitPostgres()
+	if err != nil {
+		log.Fatalf("Error connecting to postgres: %v", err)
+	}
 
-	err := http.ListenAndServe(":3333", r)
+	err = graphql.Init()
+	if err != nil {
+		log.Fatalf("Error initializing graphql: %v", err)
+	}
+` + r + `
+
+	err = http.ListenAndServe(":3333", r)
 	if err != nil {
 		log.Fatalf("Error serving HTTP handlers: %v", err)
 	}
