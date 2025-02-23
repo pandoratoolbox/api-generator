@@ -158,7 +158,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	roles := models.Ints{1}
+	//roles := models.Ints{1}
 
 	user := models.User{
 	 	UserData: models.UserData{
