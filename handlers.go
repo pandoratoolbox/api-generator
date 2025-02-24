@@ -256,7 +256,11 @@ func GenerateHandlers(s Struct) (string, error) {
 		ctx := r.Context()
 		q := chi.URLParam(r, "{{struct_name_snake}}_id")
 		id, err := strconv.ParseInt(q, 10, 64)
-
+		if err != nil {
+			ServeError(w, err.Error(), 500)
+			return
+		}
+			
 		data := models.{{struct_name}}{}
 	
 		decoder := json.NewDecoder(r.Body)
