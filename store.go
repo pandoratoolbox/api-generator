@@ -10,7 +10,7 @@ var gen_store = `package store
 
 var store_get_user_by_username = `
 	
-func GetUserByUsername(ctx context.Context, username string) (models.User, error) {
+func GetUserByUsername(ctx context.Context, username string) (*models.User, error) {
 	out, err := graphql.GetUserByUsername(ctx, username)
 	if err != nil {
 		return out, err
@@ -21,7 +21,7 @@ func GetUserByUsername(ctx context.Context, username string) (models.User, error
 
 var store_get_user_by_email = `
 	
-func GetUserByEmail(ctx context.Context, email string) (models.User, error) {
+func GetUserByEmail(ctx context.Context, email string) (*models.User, error) {
 	out, err := graphql.GetUserByEmail(ctx, email)
 	if err != nil {
 		return out, err
@@ -38,7 +38,7 @@ func GenerateStoreFunctions(s Struct, package_name string) (string, error) {
 
 	getq := `
 
-func Get{{struct_name}}(ctx context.Context, id int64) (models.{{struct_name}}, error) {
+func Get{{struct_name}}(ctx context.Context, id int64) (*models.{{struct_name}}, error) {
 		data, err := {{package_name}}.Get{{struct_name}}(ctx, id)
 
 		if err != nil {
@@ -141,7 +141,7 @@ func New{{struct_name}}(ctx context.Context, data *models.{{struct_name}}) error
 			if col.IsUnique {
 				getfkbyid := `
 
-					func Get{{struct_name_upper}}By{{column_name_upper}}(ctx context.Context, id int64) (models.{{struct_name_upper}}, error) {
+					func Get{{struct_name_upper}}By{{column_name_upper}}(ctx context.Context, id int64) (*models.{{struct_name_upper}}, error) {
 									data, err := graphql.Get{{struct_name_upper}}By{{column_name_upper}}(ctx, id)
 									if err != nil {
 										return data, err

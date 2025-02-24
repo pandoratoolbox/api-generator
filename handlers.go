@@ -238,6 +238,11 @@ func GenerateHandlers(s Struct) (string, error) {
 			ServeError(w, err.Error(), 500)
 			return
 		}
+
+		if data == nil {
+		ServeError(w, "{{struct_name}} not found", 404)
+		return
+		}
 	
 		ServeJSON(w, data)
 	}`

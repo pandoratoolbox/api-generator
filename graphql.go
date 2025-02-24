@@ -119,7 +119,7 @@ func Init() error {
 
 var graphql_user_by_username = strings.Replace(`
 
-func GetUserByUsername(ctx context.Context, username string) (models.User, error) {
+func GetUserByUsername(ctx context.Context, username string) (*models.User, error) {
 	var out models.User
 
 
@@ -138,12 +138,12 @@ func GetUserByUsername(ctx context.Context, username string) (models.User, error
 
 	js, err := json.Marshal(input)
 	if err != nil {
-		return out, err
+		return nil, err
 	}
 
 	res, err := Graph.GraphQL(ctx, q, js, nil)
 	if err != nil {
-		return out, err
+		return nil, err
 	}
 
 	rt := struct{
@@ -152,21 +152,21 @@ func GetUserByUsername(ctx context.Context, username string) (models.User, error
 
 	err = json.Unmarshal(res.Data, &rt)
 	if err != nil {
-		return out, err
+		return nil, err
 	}
 
 	if len(rt.User) < 1 {
-		return out, errors.New("Unable to find user")
+		return nil, nil
 	}
 
 	out = rt.User[0]
 
-	return out, nil
+	return &out, nil
 	}`, "@@", "`", -1)
 
 var graphql_user_by_email = strings.Replace(`
 
-func GetUserByEmail(ctx context.Context, email string) (models.User, error) {
+func GetUserByEmail(ctx context.Context, email string) (*models.User, error) {
 	var out models.User
 
 
@@ -185,12 +185,12 @@ func GetUserByEmail(ctx context.Context, email string) (models.User, error) {
 
 	js, err := json.Marshal(input)
 	if err != nil {
-		return out, err
+		return nil, err
 	}
 
 	res, err := Graph.GraphQL(ctx, q, js, nil)
 	if err != nil {
-		return out, err
+		return nil, err
 	}
 
 	rt := struct{
@@ -199,16 +199,16 @@ func GetUserByEmail(ctx context.Context, email string) (models.User, error) {
 
 	err = json.Unmarshal(res.Data, &rt)
 	if err != nil {
-		return out, err
+		return nil, err
 	}
 
 	if len(rt.User) < 1 {
-		return out, errors.New("Unable to find user")
+		return nil, nil
 	}
 
 	out = rt.User[0]
 
-	return out, nil
+	return &out, nil
 	}`, "@@", "`", -1)
 
 func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
@@ -305,7 +305,7 @@ func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
 			if col.IsUnique {
 				getfkbyid := `
 
-				func Get{{struct_name_upper}}By{{column_name_upper}}(ctx context.Context, id int64) (models.{{struct_name_upper}}, error) {
+				func Get{{struct_name_upper}}By{{column_name_upper}}(ctx context.Context, id int64) (*models.{{struct_name_upper}}, error) {
 					var out models.{{struct_name_upper}}
 
 					q := fragment_{{struct_name_snake}}+""query Get{{struct_name_upper}}By{{column_name_upper}} {
@@ -322,12 +322,12 @@ func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
 
 					js, err := json.Marshal(input)
 					if err != nil {
-						return out, err
+						return nil, err
 					}
 
 					res, err := Graph.GraphQL(ctx, q, js, nil)
 					if err != nil {
-						return out, err
+						return nil, err
 					}
 
 					ret := struct{
@@ -336,16 +336,16 @@ func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
 
 					err = json.Unmarshal(res.Data, &ret)
 					if err != nil {
-						return out, err
+						return nil, err
 					}
 
 					if len(ret.{{struct_name_upper}}) < 1 {
-						return out, errors.New("Object not found")
+						return nil, nil
 					}
 
 					out = ret.{{struct_name_upper}}[0]
 
-					return out, nil
+					return &out, nil
 				}`
 				getfkbyid = strings.ReplaceAll(getfkbyid, `""`, "`")
 				getfkbyid = strings.ReplaceAll(getfkbyid, "{{struct_name_upper}}", ToUpperCase(s.Name))
@@ -410,7 +410,7 @@ func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
 
 	getbyid := `
 	
-	func Get{{struct_name}}(ctx context.Context, id int64) (models.{{struct_name}}, error) {
+	func Get{{struct_name}}(ctx context.Context, id int64) (*models.{{struct_name}}, error) {
 		var data models.{{struct_name}}
 	
 		q := fragment_{{struct_name_snake}} + ""
@@ -429,12 +429,12 @@ func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
 	
 		js, err := json.Marshal(input)
 		if err != nil {
-			return data, err
+			return nil, err
 		}
 	
 		res, err := Graph.GraphQL(ctx, q, js, nil)
 		if err != nil {
-			return data, err
+			return nil, err
 		}
 	
 		var out struct {
@@ -443,16 +443,16 @@ func GenerateGraphqlQueries(s Struct, list_fields ...string) (string, error) {
 	
 		err = json.Unmarshal(res.Data, &out)
 		if err != nil {
-			return data, err
+			return nil, err
 		}
 	
 		if len(out.{{struct_name}}) < 1 {
-			return data, errors.New("Unable to retrieve object")
+			return nil, nil
 		}
 	
 		data = out.{{struct_name}}[0]
 	
-		return data, nil
+		return &data, nil
 	}`
 
 	getbyid = strings.ReplaceAll(getbyid, `""`, "`")
